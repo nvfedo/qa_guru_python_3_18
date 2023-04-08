@@ -47,7 +47,7 @@ For example, this launch was created at the same time as the launch of the job f
 ![Screen](attach/screenshots/launches.png)
 We can also create test cases and run jobs
 ![Screen](attach/screenshots/testcase.png)
-It is also possible to select the necessary ones from the test cases tab and run the launch with them (without visiting Jenkins
+It is also possible to select the necessary ones from the test cases tab and run the launch with them (without visiting Jenkins)
 ![Screen](attach/screenshots/job_run.png)
 
 ### <img width="2%" title="Jira " src="attach/logo/jira.png"> Jira 
