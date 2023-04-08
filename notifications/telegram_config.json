@@ -1,0 +1,16 @@
+{
+  "base": {
+    "logo": "",
+    "project": "API_reqres_in",
+    "environment": "env",
+    "comment": "Allure telegram notification",
+    "reportLink": "",
+    "language": "ru",
+    "allureFolder": "allure-report/",
+    "enableChart": true
+  },
+  "telegram": {
+    "token": "asd21@dasd1dczxc123e12",
+    "chat": "-121312x011",
+    "replyTo": ""
+  }}

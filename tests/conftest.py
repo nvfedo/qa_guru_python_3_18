@@ -1,12 +1,13 @@
 import os
-
 import pytest
 from dotenv import load_dotenv
 from selene.support.shared import browser
-
 from framework.demoqa import DemoQaWithEnv
-
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from utils import attachments
 load_dotenv()
+
 
 
 def pytest_addoption(parser):
@@ -32,12 +33,32 @@ def cookie(demowebshop):
 
 @pytest.fixture(scope='function')
 def app(demowebshop, cookie):
+    options = Options()
+    selenoid_capabilities = {
+        "browserName": "chrome",
+        "browserVersion": "100.0",
+        "selenoid:options": {
+            "enableVNC": True,
+            "enableVideo": True
+        }
+    }
+    options.capabilities.update(selenoid_capabilities)
+    driver = webdriver.Remote(
+        command_executor="https://user1:1234@selenoid.autotests.cloud/wd/hub",
+        options=options
+    )
+    browser.config.driver = driver
     browser.config.base_url = demowebshop.demoqa.url
     browser.config.window_width = 1920
     browser.config.window_height = 1080
     browser.open("Themes/DefaultClean/Content/images/logo.png")
     browser.driver.add_cookie({"name": "NOPCOMMERCE.AUTH", "value": cookie})
     yield browser
+    attachments.add_html(browser)
+    attachments.add_screenshot(browser)
+    attachments.add_logs(browser)
+    attachments.add_video(browser)
+    browser.quit()
     browser.quit()
 
 

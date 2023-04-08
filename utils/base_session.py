@@ -3,6 +3,7 @@ import json
 import allure
 import logging
 from curlify import to_curl
+from json import JSONDecodeError
 
 
 def allure_logger(function):
@@ -15,7 +16,7 @@ def allure_logger(function):
             try:
                 allure.attach(body=json.dumps(response.json(), indent=4), name=f"Response: {response.status_code}",
                               attachment_type=allure.attachment_type.JSON, extension='.json')
-            except:
+            except JSONDecodeError:
                 allure.attach(body=response.text, name=f"Response: {response.status_code}",
                               attachment_type=allure.attachment_type.TEXT, extension='.txt')
             return response
