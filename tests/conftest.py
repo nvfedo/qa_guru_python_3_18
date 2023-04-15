@@ -9,7 +9,6 @@ from utils import attachments
 load_dotenv()
 
 
-
 def pytest_addoption(parser):
     parser.addoption("--env", action='store', default="prod")
 
@@ -26,7 +25,7 @@ def demowebshop(env):
 
 @pytest.fixture(scope='session')
 def cookie(demowebshop):
-    response = demowebshop.login(os.getenv("LOGIN"), os.getenv("PASSWORD"))
+    response = demowebshop.login(os.getenv("demowebshop_login"), os.getenv("demowebshop_password"))
     authorization_cookie = response.cookies.get("NOPCOMMERCE.AUTH")
     return authorization_cookie
 
@@ -43,10 +42,11 @@ def app(demowebshop, cookie):
         }
     }
     options.capabilities.update(selenoid_capabilities)
+    login = os.getenv('selenoid_login')
+    password = os.getenv('selenoid_password')
     driver = webdriver.Remote(
-        command_executor="https://user1:1234@selenoid.autotests.cloud/wd/hub",
-        options=options
-    )
+        command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
+        options=options)
     browser.config.driver = driver
     browser.config.base_url = demowebshop.demoqa.url
     browser.config.window_width = 1920
